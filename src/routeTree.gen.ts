@@ -10,33 +10,159 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as LookbookRouteImport } from './routes/lookbook'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminAdministradoresRouteImport } from './routes/admin/administradores'
+import { Route as AdminLooksRouteImport } from './routes/admin/looks'
+import { Route as AdminSecoesRouteImport } from './routes/admin/secoes'
+import { Route as AdminTextosRouteImport } from './routes/admin/textos'
+import { Route as AdminWhatsappRouteImport } from './routes/admin/whatsapp'
+import { Route as ApiPublicImgSplatRouteImport } from './routes/api/public/img/$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LookbookRoute = LookbookRouteImport.update({
+  id: '/lookbook',
+  path: '/lookbook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminAdministradoresRoute = AdminAdministradoresRouteImport.update({
+  id: '/administradores',
+  path: '/administradores',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminLooksRoute = AdminLooksRouteImport.update({
+  id: '/looks',
+  path: '/looks',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminSecoesRoute = AdminSecoesRouteImport.update({
+  id: '/secoes',
+  path: '/secoes',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminTextosRoute = AdminTextosRouteImport.update({
+  id: '/textos',
+  path: '/textos',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminWhatsappRoute = AdminWhatsappRouteImport.update({
+  id: '/whatsapp',
+  path: '/whatsapp',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const ApiPublicImgSplatRoute = ApiPublicImgSplatRouteImport.update({
+  id: '/api/public/img/$',
+  path: '/api/public/img/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/lookbook': typeof LookbookRoute
+  '/admin/administradores': typeof AdminAdministradoresRoute
+  '/admin/looks': typeof AdminLooksRoute
+  '/admin/secoes': typeof AdminSecoesRoute
+  '/admin/textos': typeof AdminTextosRoute
+  '/admin/whatsapp': typeof AdminWhatsappRoute
+  '/admin/': typeof AdminIndexRoute
+  '/api/public/img/$': typeof ApiPublicImgSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/lookbook': typeof LookbookRoute
+  '/admin/administradores': typeof AdminAdministradoresRoute
+  '/admin/looks': typeof AdminLooksRoute
+  '/admin/secoes': typeof AdminSecoesRoute
+  '/admin/textos': typeof AdminTextosRoute
+  '/admin/whatsapp': typeof AdminWhatsappRoute
+  '/admin': typeof AdminIndexRoute
+  '/api/public/img/$': typeof ApiPublicImgSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/lookbook': typeof LookbookRoute
+  '/admin/administradores': typeof AdminAdministradoresRoute
+  '/admin/looks': typeof AdminLooksRoute
+  '/admin/secoes': typeof AdminSecoesRoute
+  '/admin/textos': typeof AdminTextosRoute
+  '/admin/whatsapp': typeof AdminWhatsappRoute
+  '/admin/': typeof AdminIndexRoute
+  '/api/public/img/$': typeof ApiPublicImgSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/lookbook'
+    | '/admin/administradores'
+    | '/admin/looks'
+    | '/admin/secoes'
+    | '/admin/textos'
+    | '/admin/whatsapp'
+    | '/admin/'
+    | '/api/public/img/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/lookbook'
+    | '/admin/administradores'
+    | '/admin/looks'
+    | '/admin/secoes'
+    | '/admin/textos'
+    | '/admin/whatsapp'
+    | '/admin'
+    | '/api/public/img/$'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/lookbook'
+    | '/admin/administradores'
+    | '/admin/looks'
+    | '/admin/secoes'
+    | '/admin/textos'
+    | '/admin/whatsapp'
+    | '/admin/'
+    | '/api/public/img/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  LookbookRoute: typeof LookbookRoute
+  ApiPublicImgSplatRoute: typeof ApiPublicImgSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +174,108 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lookbook': {
+      id: '/lookbook'
+      path: '/lookbook'
+      fullPath: '/lookbook'
+      preLoaderRoute: typeof LookbookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/administradores': {
+      id: '/admin/administradores'
+      path: '/administradores'
+      fullPath: '/admin/administradores'
+      preLoaderRoute: typeof AdminAdministradoresRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/looks': {
+      id: '/admin/looks'
+      path: '/looks'
+      fullPath: '/admin/looks'
+      preLoaderRoute: typeof AdminLooksRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/secoes': {
+      id: '/admin/secoes'
+      path: '/secoes'
+      fullPath: '/admin/secoes'
+      preLoaderRoute: typeof AdminSecoesRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/textos': {
+      id: '/admin/textos'
+      path: '/textos'
+      fullPath: '/admin/textos'
+      preLoaderRoute: typeof AdminTextosRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/whatsapp': {
+      id: '/admin/whatsapp'
+      path: '/whatsapp'
+      fullPath: '/admin/whatsapp'
+      preLoaderRoute: typeof AdminWhatsappRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/api/public/img/$': {
+      id: '/api/public/img/$'
+      path: '/api/public/img/$'
+      fullPath: '/api/public/img/$'
+      preLoaderRoute: typeof ApiPublicImgSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface AdminRouteRouteChildren {
+  AdminAdministradoresRoute: typeof AdminAdministradoresRoute
+  AdminLooksRoute: typeof AdminLooksRoute
+  AdminSecoesRoute: typeof AdminSecoesRoute
+  AdminTextosRoute: typeof AdminTextosRoute
+  AdminWhatsappRoute: typeof AdminWhatsappRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminAdministradoresRoute: AdminAdministradoresRoute,
+  AdminLooksRoute: AdminLooksRoute,
+  AdminSecoesRoute: AdminSecoesRoute,
+  AdminTextosRoute: AdminTextosRoute,
+  AdminWhatsappRoute: AdminWhatsappRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
+  LookbookRoute: LookbookRoute,
+  ApiPublicImgSplatRoute: ApiPublicImgSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

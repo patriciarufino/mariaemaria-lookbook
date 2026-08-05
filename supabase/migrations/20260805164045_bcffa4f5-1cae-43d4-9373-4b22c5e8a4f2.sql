@@ -1,0 +1,5 @@
+
+REVOKE EXECUTE ON FUNCTION public.has_role(uuid, public.app_role) FROM anon;
+REVOKE EXECUTE ON FUNCTION public.is_admin(uuid) FROM anon;
+REVOKE EXECUTE ON FUNCTION public.is_principal(uuid) FROM anon;
+REVOKE EXECUTE ON FUNCTION public.enforce_admin_limit() FROM PUBLIC, anon, authenticated;

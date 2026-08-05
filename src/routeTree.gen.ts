@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as LookbookRouteImport } from './routes/lookbook'
 import { Route as ApiPublicImgSplatRouteImport } from './routes/api/public/img/$'
@@ -17,6 +18,11 @@ import { Route as ApiPublicImgSplatRouteImport } from './routes/api/public/img/$
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -37,12 +43,14 @@ const ApiPublicImgSplatRoute = ApiPublicImgSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRoute
   '/auth': typeof AuthRoute
   '/lookbook': typeof LookbookRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRoute
   '/auth': typeof AuthRoute
   '/lookbook': typeof LookbookRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRoute
   '/auth': typeof AuthRoute
   '/lookbook': typeof LookbookRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/lookbook' | '/api/public/img/$'
+  fullPaths: '/' | '/admin' | '/auth' | '/lookbook' | '/api/public/img/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/lookbook' | '/api/public/img/$'
-  id: '__root__' | '/' | '/auth' | '/lookbook' | '/api/public/img/$'
+  to: '/' | '/admin' | '/auth' | '/lookbook' | '/api/public/img/$'
+  id: '__root__' | '/' | '/admin' | '/auth' | '/lookbook' | '/api/public/img/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRouteRoute: typeof AdminRouteRoute
   AuthRoute: typeof AuthRoute
   LookbookRoute: typeof LookbookRoute
   ApiPublicImgSplatRoute: typeof ApiPublicImgSplatRoute
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRouteRoute: AdminRouteRoute,
   AuthRoute: AuthRoute,
   LookbookRoute: LookbookRoute,
   ApiPublicImgSplatRoute: ApiPublicImgSplatRoute,

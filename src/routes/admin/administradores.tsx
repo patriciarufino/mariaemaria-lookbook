@@ -49,8 +49,14 @@ function AdminsPage() {
   });
 
   const edit = useMutation({
-    mutationFn: (input: Parameters<typeof updateAdmin>[0] extends never ? never : any) =>
-      updateAdmin({ data: input }),
+    mutationFn: (input: {
+      id: string;
+      name?: string;
+      email?: string;
+      password?: string;
+      is_active?: boolean;
+    }) => updateAdmin({ data: input }),
+
     onSuccess: () => {
       refresh();
       toast.success("Administrador atualizado.");

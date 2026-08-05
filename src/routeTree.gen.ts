@@ -14,6 +14,7 @@ import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as LookbookRouteImport } from './routes/lookbook'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminAdministradoresRouteImport } from './routes/admin/administradores'
 import { Route as AdminLooksRouteImport } from './routes/admin/looks'
 import { Route as AdminSecoesRouteImport } from './routes/admin/secoes'
 import { Route as AdminTextosRouteImport } from './routes/admin/textos'
@@ -43,6 +44,11 @@ const LookbookRoute = LookbookRouteImport.update({
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminAdministradoresRoute = AdminAdministradoresRouteImport.update({
+  id: '/administradores',
+  path: '/administradores',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminLooksRoute = AdminLooksRouteImport.update({
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/lookbook': typeof LookbookRoute
+  '/admin/administradores': typeof AdminAdministradoresRoute
   '/admin/looks': typeof AdminLooksRoute
   '/admin/secoes': typeof AdminSecoesRoute
   '/admin/textos': typeof AdminTextosRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/lookbook': typeof LookbookRoute
+  '/admin/administradores': typeof AdminAdministradoresRoute
   '/admin/looks': typeof AdminLooksRoute
   '/admin/secoes': typeof AdminSecoesRoute
   '/admin/textos': typeof AdminTextosRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/lookbook': typeof LookbookRoute
+  '/admin/administradores': typeof AdminAdministradoresRoute
   '/admin/looks': typeof AdminLooksRoute
   '/admin/secoes': typeof AdminSecoesRoute
   '/admin/textos': typeof AdminTextosRoute
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/lookbook'
+    | '/admin/administradores'
     | '/admin/looks'
     | '/admin/secoes'
     | '/admin/textos'
@@ -125,6 +135,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/lookbook'
+    | '/admin/administradores'
     | '/admin/looks'
     | '/admin/secoes'
     | '/admin/textos'
@@ -137,6 +148,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/lookbook'
+    | '/admin/administradores'
     | '/admin/looks'
     | '/admin/secoes'
     | '/admin/textos'
@@ -190,6 +202,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/administradores': {
+      id: '/admin/administradores'
+      path: '/administradores'
+      fullPath: '/admin/administradores'
+      preLoaderRoute: typeof AdminAdministradoresRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/looks': {
       id: '/admin/looks'
       path: '/looks'
@@ -229,6 +248,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteRouteChildren {
+  AdminAdministradoresRoute: typeof AdminAdministradoresRoute
   AdminLooksRoute: typeof AdminLooksRoute
   AdminSecoesRoute: typeof AdminSecoesRoute
   AdminTextosRoute: typeof AdminTextosRoute
@@ -237,6 +257,7 @@ interface AdminRouteRouteChildren {
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminAdministradoresRoute: AdminAdministradoresRoute,
   AdminLooksRoute: AdminLooksRoute,
   AdminSecoesRoute: AdminSecoesRoute,
   AdminTextosRoute: AdminTextosRoute,

@@ -93,7 +93,7 @@ export async function uploadPhoto(file: File): Promise<string> {
   return url;
 }
 
-const DETAIL_HINT = /[-_ .]?(detalhe|detalhes|detail|details|det|zoom|closeup|close-up|b|2)$/i;
+const DETAIL_HINT = /[-_ ](detalhe|detalhes|detail|details|det|zoom|closeup|close-up|b|2)$/i;
 
 /** true quando o nome do arquivo indica que é a foto de detalhe. */
 export function looksLikeDetail(fileName: string) {

@@ -172,14 +172,24 @@ function LooksAdmin() {
                     <select
                       className={`${inputClass} mt-2`}
                       value={look.status}
-                      onChange={(e) =>
-                        update.mutate({ id: look.id, patch: { status: e.target.value } })
-                      }
+                      onChange={(e) => {
+                        if (
+                          e.target.value === "published" &&
+                          (!look.full_look_image || !look.detail_image)
+                        ) {
+                          toast.error(
+                            "Este look precisa das duas fotos (principal e detalhe) para ser publicado.",
+                          );
+                          return;
+                        }
+                        update.mutate({ id: look.id, patch: { status: e.target.value } });
+                      }}
                     >
                       <option value="draft">Rascunho</option>
                       <option value="published">Publicado</option>
                     </select>
                   </label>
+
                 </div>
 
                 <label className="block">

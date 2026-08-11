@@ -5,15 +5,17 @@ import { toast } from "sonner";
 import { ArrowDown, ArrowUp, Trash2 } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
-import { uploadImage } from "@/lib/upload.functions";
+import { uploadPhoto } from "@/lib/image-upload";
+import { PhotoSlot } from "@/components/photo-slot";
+import { BulkLookForm, NewLookForm } from "@/components/look-uploader";
 import {
   Card,
   PageTitle,
-  buttonClass,
   ghostButtonClass,
   inputClass,
   labelClass,
 } from "@/components/admin-ui";
+
 
 export const Route = createFileRoute("/admin/looks")({
   head: () => ({
@@ -38,12 +40,6 @@ type Look = {
   whatsapp_message: string | null;
 };
 
-async function fileToBase64(file: File) {
-  const buffer = new Uint8Array(await file.arrayBuffer());
-  let binary = "";
-  for (const byte of buffer) binary += String.fromCharCode(byte);
-  return btoa(binary);
-}
 
 function LooksAdmin() {
   const queryClient = useQueryClient();
@@ -75,23 +71,6 @@ function LooksAdmin() {
     onError: (e: Error) => toast.error(e.message),
   });
 
-  const create = useMutation({
-    mutationFn: async () => {
-      const next = (looks.at(-1)?.display_order ?? 0) + 1;
-      const { error } = await supabase.from("looks").insert({
-        reference: `REF ${String(next).padStart(3, "0")}`,
-        display_order: next,
-        status: "draft",
-      });
-      if (error) throw error;
-    },
-    onSuccess: () => {
-      refresh();
-      toast.success("Look criado como rascunho.");
-    },
-    onError: (e: Error) => toast.error(e.message),
-  });
-
   const remove = useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase.from("looks").delete().eq("id", id);
@@ -112,24 +91,37 @@ function LooksAdmin() {
     await update.mutateAsync({ id: b.id, patch: { display_order: a.display_order } });
   }
 
+  /** Substitui apenas uma das fotos, sem tocar no restante do look. */
   async function handleUpload(look: Look, field: "full_look_image" | "detail_image", file: File) {
     setBusy(`${look.id}-${field}`);
     try {
-      const { url } = await uploadImage({
-        data: {
-          fileName: file.name,
-          contentType: file.type,
-          base64: await fileToBase64(file),
-        },
-      });
+      const url = await uploadPhoto(file);
       await update.mutateAsync({ id: look.id, patch: { [field]: url } });
-      toast.success("Imagem atualizada.");
+      toast.success("Foto atualizada.");
     } catch (error) {
       toast.error((error as Error).message);
     } finally {
       setBusy(null);
     }
   }
+
+  /** Remove a foto do look (o look continua existindo, como rascunho). */
+  async function handleClear(look: Look, field: "full_look_image" | "detail_image") {
+    setBusy(`${look.id}-${field}`);
+    try {
+      await update.mutateAsync({
+        id: look.id,
+        patch: { [field]: null, ...(look.status === "published" ? { status: "draft" } : {}) },
+      });
+      toast.success("Foto removida. Envie outra para publicar o look novamente.");
+    } catch (error) {
+      toast.error((error as Error).message);
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  const nextOrder = (looks.at(-1)?.display_order ?? 0) + 1;
 
   return (
     <div>
@@ -138,42 +130,29 @@ function LooksAdmin() {
         description="Cada look tem duas imagens: o look completo e o detalhe. Publique quando estiver pronto."
       />
 
-      <button className={buttonClass} onClick={() => create.mutate()} disabled={create.isPending}>
-        Novo look
-      </button>
+      <div className="space-y-6">
+        <NewLookForm nextOrder={nextOrder} onSaved={refresh} />
+        <BulkLookForm nextOrder={nextOrder} onSaved={refresh} />
+      </div>
 
       <div className="mt-8 space-y-6">
         {looks.map((look, index) => (
           <Card key={look.id}>
-            <div className="grid gap-6 lg:grid-cols-[300px_1fr]">
+            <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
               <div className="grid grid-cols-2 gap-3">
                 {(["full_look_image", "detail_image"] as const).map((field) => (
-                  <label key={field} className="cursor-pointer">
-                    <span className={labelClass}>
-                      {field === "full_look_image" ? "Look completo" : "Detalhe"}
-                    </span>
-                    <div className="mt-2 flex aspect-[3/4] items-center justify-center overflow-hidden border border-dashed border-border bg-surface-alt text-center text-[0.6rem] uppercase tracking-[0.2em] text-muted-foreground">
-                      {look[field] ? (
-                        <img src={look[field]!} alt="" className="h-full w-full object-cover" />
-                      ) : busy === `${look.id}-${field}` ? (
-                        "Enviando..."
-                      ) : (
-                        "Enviar"
-                      )}
-                    </div>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) void handleUpload(look, field, file);
-                        e.target.value = "";
-                      }}
-                    />
-                  </label>
+                  <PhotoSlot
+                    key={field}
+                    label={field === "full_look_image" ? "Foto principal" : "Foto detalhe"}
+                    url={look[field]}
+                    busy={busy === `${look.id}-${field}`}
+                    onSelect={(file) => void handleUpload(look, field, file)}
+                    onClear={() => void handleClear(look, field)}
+                    onError={toast.error}
+                  />
                 ))}
               </div>
+
 
               <div className="space-y-4">
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -193,14 +172,24 @@ function LooksAdmin() {
                     <select
                       className={`${inputClass} mt-2`}
                       value={look.status}
-                      onChange={(e) =>
-                        update.mutate({ id: look.id, patch: { status: e.target.value } })
-                      }
+                      onChange={(e) => {
+                        if (
+                          e.target.value === "published" &&
+                          (!look.full_look_image || !look.detail_image)
+                        ) {
+                          toast.error(
+                            "Este look precisa das duas fotos (principal e detalhe) para ser publicado.",
+                          );
+                          return;
+                        }
+                        update.mutate({ id: look.id, patch: { status: e.target.value } });
+                      }}
                     >
                       <option value="draft">Rascunho</option>
                       <option value="published">Publicado</option>
                     </select>
                   </label>
+
                 </div>
 
                 <label className="block">

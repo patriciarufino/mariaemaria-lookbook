@@ -5,15 +5,17 @@ import { toast } from "sonner";
 import { ArrowDown, ArrowUp, Trash2 } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
-import { uploadImage } from "@/lib/upload.functions";
+import { uploadPhoto } from "@/lib/image-upload";
+import { PhotoSlot } from "@/components/photo-slot";
+import { BulkLookForm, NewLookForm } from "@/components/look-uploader";
 import {
   Card,
   PageTitle,
-  buttonClass,
   ghostButtonClass,
   inputClass,
   labelClass,
 } from "@/components/admin-ui";
+
 
 export const Route = createFileRoute("/admin/looks")({
   head: () => ({

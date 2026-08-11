@@ -20,10 +20,11 @@ export const uploadImage = createServerFn({ method: "POST" })
     if (!data.contentType.startsWith("image/")) throw new Error("Envie um arquivo de imagem.");
 
     const bytes = Uint8Array.from(atob(data.base64), (c) => c.charCodeAt(0));
-    if (bytes.byteLength > 8 * 1024 * 1024) throw new Error("Imagem maior que 8MB.");
+    if (bytes.byteLength > 15 * 1024 * 1024) throw new Error("Imagem maior que 15MB.");
 
     const safeName = data.fileName.toLowerCase().replace(/[^a-z0-9.]+/g, "-");
-    const path = `looks/${Date.now()}-${safeName}`;
+    // Sufixo aleatório evita colisão/duplicação quando dois envios acontecem no mesmo ms.
+    const path = `looks/${Date.now()}-${crypto.randomUUID().slice(0, 8)}-${safeName}`;
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.storage

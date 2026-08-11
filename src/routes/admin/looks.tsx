@@ -40,12 +40,6 @@ type Look = {
   whatsapp_message: string | null;
 };
 
-async function fileToBase64(file: File) {
-  const buffer = new Uint8Array(await file.arrayBuffer());
-  let binary = "";
-  for (const byte of buffer) binary += String.fromCharCode(byte);
-  return btoa(binary);
-}
 
 function LooksAdmin() {
   const queryClient = useQueryClient();

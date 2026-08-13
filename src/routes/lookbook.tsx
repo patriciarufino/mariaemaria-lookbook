@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { getSiteContent } from "@/lib/public-content.functions";
 import { Brand } from "@/components/rich-text";
 import { useIndex, useKeyboardNav, useSwipe } from "@/lib/carousel";
+import { useTrackVisit } from "@/lib/track-visit";
 
 const contentQuery = queryOptions({
   queryKey: ["site-content"],
@@ -38,6 +39,7 @@ export const Route = createFileRoute("/lookbook")({
 
 function LookbookPage() {
   const { data } = useSuspenseQuery(contentQuery);
+  useTrackVisit("/lookbook");
 
   const slides = data.looks.flatMap((look) =>
     [look.full_look_image, look.detail_image]

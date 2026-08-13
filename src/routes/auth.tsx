@@ -25,6 +25,10 @@ function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  // Rota sem renderização no servidor: só montamos o formulário após a hidratação.
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -48,6 +52,8 @@ function AuthPage() {
     }
     navigate({ to: "/admin", replace: true });
   }
+
+  if (!mounted) return <div className="min-h-screen bg-background" />;
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-6">

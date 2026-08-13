@@ -14,6 +14,7 @@ import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as LookbookRouteImport } from './routes/lookbook'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminAcessosRouteImport } from './routes/admin/acessos'
 import { Route as AdminAdministradoresRouteImport } from './routes/admin/administradores'
 import { Route as AdminLooksRouteImport } from './routes/admin/looks'
 import { Route as AdminSecoesRouteImport } from './routes/admin/secoes'
@@ -44,6 +45,11 @@ const LookbookRoute = LookbookRouteImport.update({
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminAcessosRoute = AdminAcessosRouteImport.update({
+  id: '/acessos',
+  path: '/acessos',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminAdministradoresRoute = AdminAdministradoresRouteImport.update({
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/lookbook': typeof LookbookRoute
+  '/admin/acessos': typeof AdminAcessosRoute
   '/admin/administradores': typeof AdminAdministradoresRoute
   '/admin/looks': typeof AdminLooksRoute
   '/admin/secoes': typeof AdminSecoesRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/lookbook': typeof LookbookRoute
+  '/admin/acessos': typeof AdminAcessosRoute
   '/admin/administradores': typeof AdminAdministradoresRoute
   '/admin/looks': typeof AdminLooksRoute
   '/admin/secoes': typeof AdminSecoesRoute
@@ -108,6 +116,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/lookbook': typeof LookbookRoute
+  '/admin/acessos': typeof AdminAcessosRoute
   '/admin/administradores': typeof AdminAdministradoresRoute
   '/admin/looks': typeof AdminLooksRoute
   '/admin/secoes': typeof AdminSecoesRoute
@@ -123,6 +132,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/lookbook'
+    | '/admin/acessos'
     | '/admin/administradores'
     | '/admin/looks'
     | '/admin/secoes'
@@ -135,6 +145,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/lookbook'
+    | '/admin/acessos'
     | '/admin/administradores'
     | '/admin/looks'
     | '/admin/secoes'
@@ -148,6 +159,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/lookbook'
+    | '/admin/acessos'
     | '/admin/administradores'
     | '/admin/looks'
     | '/admin/secoes'
@@ -202,6 +214,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/acessos': {
+      id: '/admin/acessos'
+      path: '/acessos'
+      fullPath: '/admin/acessos'
+      preLoaderRoute: typeof AdminAcessosRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/administradores': {
       id: '/admin/administradores'
       path: '/administradores'
@@ -248,6 +267,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteRouteChildren {
+  AdminAcessosRoute: typeof AdminAcessosRoute
   AdminAdministradoresRoute: typeof AdminAdministradoresRoute
   AdminLooksRoute: typeof AdminLooksRoute
   AdminSecoesRoute: typeof AdminSecoesRoute
@@ -257,6 +277,7 @@ interface AdminRouteRouteChildren {
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminAcessosRoute: AdminAcessosRoute,
   AdminAdministradoresRoute: AdminAdministradoresRoute,
   AdminLooksRoute: AdminLooksRoute,
   AdminSecoesRoute: AdminSecoesRoute,
@@ -279,3 +300,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

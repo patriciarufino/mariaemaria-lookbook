@@ -44,7 +44,8 @@ export const getSiteContent = createServerFn({ method: "GET" }).handler(
         .from("looks")
         .select("id, reference, full_look_image, detail_image, display_order, whatsapp_message")
         .eq("status", "published")
-        .order("display_order", { ascending: true }),
+        // Looks mais recentes (maior ordem) aparecem primeiro.
+        .order("display_order", { ascending: false }),
     ]);
 
     const texts: Record<string, string> = {};

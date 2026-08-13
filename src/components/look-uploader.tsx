@@ -4,7 +4,7 @@ import { Trash2 } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
 import { PhotoSlot } from "@/components/photo-slot";
-import { ACCEPT_ATTR, autoPair, isAcceptedImage, uploadPhoto } from "@/lib/image-upload";
+import { ACCEPT_ATTR, isAcceptedImage, pairSelection, uploadPhoto } from "@/lib/image-upload";
 import { Card, buttonClass, ghostButtonClass, inputClass, labelClass } from "@/components/admin-ui";
 
 type Draft = { key: string; reference: string; full: File | null; detail: File | null };

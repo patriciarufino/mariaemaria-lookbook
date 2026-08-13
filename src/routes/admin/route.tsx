@@ -22,6 +22,7 @@ const links = [
   { to: "/admin/textos", label: "Textos" },
   { to: "/admin/secoes", label: "Seções" },
   { to: "/admin/whatsapp", label: "WhatsApp" },
+  { to: "/admin/acessos", label: "Acessos" },
   { to: "/admin/administradores", label: "Administradores" },
 ] as const;
 

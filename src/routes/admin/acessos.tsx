@@ -75,7 +75,8 @@ function AcessosAdmin() {
         <Stat label="Pessoas diferentes" value={uniqueVisitors} />
       </div>
 
-      <Card className="mt-6">
+      <div className="mt-6">
+      <Card>
         <h2 className="font-serif text-xl text-brand">Últimos acessos</h2>
         {isLoading && <p className="mt-3 text-sm text-muted-foreground">Carregando...</p>}
         {!isLoading && visits.length === 0 && (
@@ -112,6 +113,7 @@ function AcessosAdmin() {
           </div>
         )}
       </Card>
+      </div>
     </div>
   );
 }

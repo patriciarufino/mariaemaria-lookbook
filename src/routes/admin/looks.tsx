@@ -51,7 +51,7 @@ function LooksAdmin() {
       const { data, error } = await supabase
         .from("looks")
         .select("*")
-        .order("display_order", { ascending: true });
+        .order("display_order", { ascending: false });
       if (error) throw error;
       return data as Look[];
     },
@@ -121,7 +121,8 @@ function LooksAdmin() {
     }
   }
 
-  const nextOrder = (looks.at(-1)?.display_order ?? 0) + 1;
+  // Lista em ordem decrescente: o primeiro item é o de maior ordem.
+  const nextOrder = (looks[0]?.display_order ?? 0) + 1;
 
   return (
     <div>

@@ -4,7 +4,7 @@ import { Trash2 } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
 import { PhotoSlot } from "@/components/photo-slot";
-import { ACCEPT_ATTR, autoPair, isAcceptedImage, uploadPhoto } from "@/lib/image-upload";
+import { ACCEPT_ATTR, isAcceptedImage, pairSelection, uploadPhoto } from "@/lib/image-upload";
 import { Card, buttonClass, ghostButtonClass, inputClass, labelClass } from "@/components/admin-ui";
 
 type Draft = { key: string; reference: string; full: File | null; detail: File | null };
@@ -48,7 +48,7 @@ export function NewLookForm({ nextOrder, onSaved }: { nextOrder: number; onSaved
     const valid = files.filter(isAcceptedImage);
     if (valid.length !== files.length) toast.error("Alguns arquivos não são JPG, PNG ou WEBP.");
     if (!valid.length) return;
-    const [pair] = autoPair(valid);
+    const [pair] = pairSelection(valid);
     if (pair?.full) setFull(pair.full);
     if (pair?.detail) setDetail(pair.detail);
     if (valid.length === 1 && !pair?.full) setDetail(valid[0]!);
@@ -139,7 +139,7 @@ export function BulkLookForm({ nextOrder, onSaved }: { nextOrder: number; onSave
     const valid = files.filter(isAcceptedImage);
     if (valid.length !== files.length) toast.error("Alguns arquivos não são JPG, PNG ou WEBP.");
     if (!valid.length) return;
-    const pairs = autoPair(valid);
+    const pairs = pairSelection(valid);
     setDrafts(
       pairs.map((pair, i) => ({
         key: nextKey(),

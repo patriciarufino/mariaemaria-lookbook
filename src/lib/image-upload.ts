@@ -136,3 +136,26 @@ export function autoPair(files: File[]): FilePair[] {
 
   return order.map((key) => groups.get(key)!);
 }
+
+/**
+ * Pareamento tolerante: usa os nomes dos arquivos quando eles indicam o par e,
+ * quando não indicam, junta as fotos duas a duas na ordem em que foram enviadas.
+ */
+export function pairSelection(files: File[]): FilePair[] {
+  const pairs = autoPair(files);
+  const result: FilePair[] = [];
+
+  for (const pair of pairs) {
+    const last = result[result.length - 1];
+    const lonely = (p: FilePair) => Boolean(p.full) !== Boolean(p.detail);
+    if (last && lonely(last) && lonely(pair)) {
+      const photos = [last.full, last.detail, pair.full, pair.detail].filter(Boolean) as File[];
+      last.full = photos[0]!;
+      last.detail = photos[1]!;
+      continue;
+    }
+    result.push({ ...pair });
+  }
+
+  return result;
+}

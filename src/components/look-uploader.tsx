@@ -48,7 +48,7 @@ export function NewLookForm({ nextOrder, onSaved }: { nextOrder: number; onSaved
     const valid = files.filter(isAcceptedImage);
     if (valid.length !== files.length) toast.error("Alguns arquivos não são JPG, PNG ou WEBP.");
     if (!valid.length) return;
-    const [pair] = autoPair(valid);
+    const [pair] = pairSelection(valid);
     if (pair?.full) setFull(pair.full);
     if (pair?.detail) setDetail(pair.detail);
     if (valid.length === 1 && !pair?.full) setDetail(valid[0]!);

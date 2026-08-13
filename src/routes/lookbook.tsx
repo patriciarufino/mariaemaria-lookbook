@@ -38,6 +38,7 @@ export const Route = createFileRoute("/lookbook")({
 
 function LookbookPage() {
   const { data } = useSuspenseQuery(contentQuery);
+  useTrackVisit("/lookbook");
 
   const slides = data.looks.flatMap((look) =>
     [look.full_look_image, look.detail_image]

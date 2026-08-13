@@ -3,6 +3,7 @@ import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { MessageCircle } from "lucide-react";
 
 import { getSiteContent } from "@/lib/public-content.functions";
+import { useTrackVisit } from "@/lib/track-visit";
 import { LookCard } from "@/components/look-card";
 import { Brand, RichText } from "@/components/rich-text";
 
@@ -42,6 +43,7 @@ export function waHref(number: string, message: string) {
 
 function Home() {
   const { data } = useSuspenseQuery(contentQuery);
+  useTrackVisit("/");
   const t = (key: string, fallback = "") => data.texts[key] ?? fallback;
   const on = (key: string) => data.sections[key] !== false;
 

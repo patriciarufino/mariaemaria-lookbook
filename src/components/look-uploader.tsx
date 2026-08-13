@@ -139,7 +139,7 @@ export function BulkLookForm({ nextOrder, onSaved }: { nextOrder: number; onSave
     const valid = files.filter(isAcceptedImage);
     if (valid.length !== files.length) toast.error("Alguns arquivos não são JPG, PNG ou WEBP.");
     if (!valid.length) return;
-    const pairs = autoPair(valid);
+    const pairs = pairSelection(valid);
     setDrafts(
       pairs.map((pair, i) => ({
         key: nextKey(),

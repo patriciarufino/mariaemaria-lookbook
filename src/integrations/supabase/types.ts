@@ -261,6 +261,39 @@ export type Database = {
         }
         Relationships: []
       }
+      site_visits: {
+        Row: {
+          country: string
+          created_at: string
+          device: string
+          id: string
+          language: string
+          path: string
+          referrer: string
+          visitor_key: string
+        }
+        Insert: {
+          country?: string
+          created_at?: string
+          device?: string
+          id?: string
+          language?: string
+          path?: string
+          referrer?: string
+          visitor_key?: string
+        }
+        Update: {
+          country?: string
+          created_at?: string
+          device?: string
+          id?: string
+          language?: string
+          path?: string
+          referrer?: string
+          visitor_key?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string

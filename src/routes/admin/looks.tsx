@@ -156,42 +156,18 @@ function LooksAdmin() {
 
 
               <div className="space-y-4">
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <label>
-                    <span className={labelClass}>Referência</span>
-                    <input
-                      className={`${inputClass} mt-2`}
-                      defaultValue={look.reference}
-                      onBlur={(e) =>
-                        e.target.value !== look.reference &&
-                        update.mutate({ id: look.id, patch: { reference: e.target.value } })
-                      }
-                    />
-                  </label>
-                  <label>
-                    <span className={labelClass}>Situação</span>
-                    <select
-                      className={`${inputClass} mt-2`}
-                      value={look.status}
-                      onChange={(e) => {
-                        if (
-                          e.target.value === "published" &&
-                          (!look.full_look_image || !look.detail_image)
-                        ) {
-                          toast.error(
-                            "Este look precisa das duas fotos (principal e detalhe) para ser publicado.",
-                          );
-                          return;
-                        }
-                        update.mutate({ id: look.id, patch: { status: e.target.value } });
-                      }}
-                    >
-                      <option value="draft">Rascunho</option>
-                      <option value="published">Publicado</option>
-                    </select>
-                  </label>
+                <label className="block sm:max-w-xs">
+                  <span className={labelClass}>Referência</span>
+                  <input
+                    className={`${inputClass} mt-2`}
+                    defaultValue={look.reference}
+                    onBlur={(e) =>
+                      e.target.value !== look.reference &&
+                      update.mutate({ id: look.id, patch: { reference: e.target.value } })
+                    }
+                  />
+                </label>
 
-                </div>
 
                 <label className="block">
                   <span className={labelClass}>Mensagem do WhatsApp</span>

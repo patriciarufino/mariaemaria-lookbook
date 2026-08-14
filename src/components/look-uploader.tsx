@@ -29,7 +29,7 @@ async function saveDraft(draft: Draft, order: number) {
     full_look_image: fullUrl,
     detail_image: detailUrl,
     display_order: order,
-    status: "draft",
+    status: "published",
   });
   if (error) throw new Error(error.message);
 }

@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.2",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://johgdjphbydqqcwqztwh.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "maria-maria-lookbook",
+      "version": "0.1.0",
+      "title": "Maria & Maria Lookbook"
+    },
+    "tools": [
+      {
+        "name": "list_looks",
+        "title": "Listar looks",
+        "description": "Lista os looks do lookbook (referência, fotos, ordem e situação), do mais recente para o mais antigo.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "status": {
+              "default": "all",
+              "description": "Filtrar por situação do look.",
+              "type": "string",
+              "enum": [
+                "published",
+                "draft",
+                "all"
+              ]
+            },
+            "limit": {
+              "default": 50,
+              "description": "Quantidade máxima de looks.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "update_look",
+        "title": "Atualizar look",
+        "description": "Atualiza a referência, a situação ou a mensagem de WhatsApp de um look. Requer permissão de administrador.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "ID do look."
+            },
+            "reference": {
+              "description": "Nova referência, ex.: REF 012.",
+              "type": "string",
+              "minLength": 1
+            },
+            "status": {
+              "description": "Situação do look.",
+              "type": "string",
+              "enum": [
+                "draft",
+                "published"
+              ]
+            },
+            "whatsapp_message": {
+              "description": "Mensagem enviada no WhatsApp deste look.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_site_content",
+        "title": "Ler conteúdo do site",
+        "description": "Retorna os textos, as seções e as configurações (WhatsApp) do site.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "update_site_text",
+        "title": "Atualizar texto do site",
+        "description": "Altera o valor de um texto do site pela sua chave (ex.: hero_title). Requer permissão de administrador.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "key": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Chave do texto, como aparece em get_site_content."
+            },
+            "value": {
+              "type": "string",
+              "description": "Novo conteúdo do texto."
+            }
+          },
+          "required": [
+            "key",
+            "value"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "visit_stats",
+        "title": "Acessos ao site",
+        "description": "Resumo dos acessos ao site nos últimos dias (total, visitantes diferentes e páginas mais vistas). Requer permissão de administrador.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "days": {
+              "default": 7,
+              "description": "Período em dias.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 90
+            }
+          }
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}

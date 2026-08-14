@@ -8,6 +8,10 @@ import { Brand } from "@/components/rich-text";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
+  // `next` preserva um destino interno (ex.: tela de consentimento OAuth).
+  validateSearch: (s: Record<string, unknown>) => ({
+    next: typeof s["next"] === "string" && s["next"].startsWith("/") ? s["next"] : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Acesso administrativo — Maria e Maria" },
@@ -22,6 +26,12 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { next } = Route.useSearch();
+
+  const goAfterLogin = () => {
+    if (next) window.location.href = next;
+    else void navigate({ to: "/admin", replace: true });
+  };
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -32,9 +42,10 @@ function AuthPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/admin", replace: true });
+      if (data.session) goAfterLogin();
     });
-  }, [navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate, next]);
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -50,7 +61,7 @@ function AuthPage() {
     } catch {
       /* registro de acesso é opcional */
     }
-    navigate({ to: "/admin", replace: true });
+    goAfterLogin();
   }
 
   if (!mounted) return <div className="min-h-screen bg-background" />;

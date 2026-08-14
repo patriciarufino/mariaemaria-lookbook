@@ -20,5 +20,8 @@ export default defineMcp({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,
     acceptedAudiences: "authenticated",
   }),
-  tools: [listLooksTool, updateLookTool, getSiteContentTool, updateSiteTextTool, visitStatsTool],
+  // O SDK tipa `outputSchema` como opcional exato; nossas ferramentas não o usam.
+  tools: [listLooksTool, updateLookTool, getSiteContentTool, updateSiteTextTool, visitStatsTool] as Parameters<
+    typeof defineMcp
+  >[0]["tools"],
 });

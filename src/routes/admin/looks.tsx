@@ -96,7 +96,11 @@ function LooksAdmin() {
     setBusy(`${look.id}-${field}`);
     try {
       const url = await uploadPhoto(file);
-      await update.mutateAsync({ id: look.id, patch: { [field]: url } });
+      const other = field === "full_look_image" ? look.detail_image : look.full_look_image;
+      await update.mutateAsync({
+        id: look.id,
+        patch: { [field]: url, ...(other ? { status: "published" } : {}) },
+      });
       toast.success("Foto atualizada.");
     } catch (error) {
       toast.error((error as Error).message);

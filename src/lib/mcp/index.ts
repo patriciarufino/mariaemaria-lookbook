@@ -21,7 +21,7 @@ export default defineMcp({
     acceptedAudiences: "authenticated",
   }),
   // O SDK tipa `outputSchema` como opcional exato; nossas ferramentas não o usam.
-  tools: [listLooksTool, updateLookTool, getSiteContentTool, updateSiteTextTool, visitStatsTool] as Parameters<
+  tools: [listLooksTool, updateLookTool, getSiteContentTool, updateSiteTextTool, visitStatsTool] as unknown as Parameters<
     typeof defineMcp
   >[0]["tools"],
 });

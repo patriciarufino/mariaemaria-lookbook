@@ -5,6 +5,7 @@ import { MessageCircle } from "lucide-react";
 import { getSiteContent } from "@/lib/public-content.functions";
 import { useTrackVisit } from "@/lib/track-visit";
 import { LookCard } from "@/components/look-card";
+import { LookRotator } from "@/components/look-rotator";
 import { Brand, RichText } from "@/components/rich-text";
 
 const contentQuery = queryOptions({
@@ -120,6 +121,11 @@ function Home() {
             <p className="mt-6 max-w-3xl text-[0.95rem] leading-relaxed text-muted-foreground">
               {t("collection_description")}
             </p>
+
+            <div className="mt-14">
+              <LookRotator looks={data.looks} label="Em destaque agora" />
+            </div>
+
 
             <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
               {data.looks.map((look) => (

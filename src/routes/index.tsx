@@ -121,6 +121,11 @@ function Home() {
               {t("collection_description")}
             </p>
 
+            <div className="mt-14">
+              <LookRotator looks={data.looks} label="Em destaque agora" />
+            </div>
+
+
             <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
               {data.looks.map((look) => (
                 <LookCard

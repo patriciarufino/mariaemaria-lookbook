@@ -5,6 +5,7 @@ import { MessageCircle } from "lucide-react";
 import { getSiteContent } from "@/lib/public-content.functions";
 import { useTrackVisit } from "@/lib/track-visit";
 import { LookCard } from "@/components/look-card";
+import { LookRotator } from "@/components/look-rotator";
 import { Brand, RichText } from "@/components/rich-text";
 
 const contentQuery = queryOptions({

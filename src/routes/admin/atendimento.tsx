@@ -124,8 +124,9 @@ function AtendimentoAdmin() {
         </Card>
       </div>
 
+      <div className="mt-8">
       <Card>
-        <div className="mt-0">
+        <div>
           <p className="text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
             Últimos encaminhamentos
           </p>
@@ -156,6 +157,7 @@ function AtendimentoAdmin() {
           </div>
         </div>
       </Card>
+      </div>
     </div>
   );
 }

@@ -70,6 +70,12 @@ export const getSiteContent = createServerFn({ method: "GET" }).handler(
     const settings: Record<string, string> = {};
     for (const row of settingsRes.data ?? []) settings[row.key] = row.value;
 
-    return { texts, sections, settings, looks: (looksRes.data ?? []) as PublicLook[] };
+    return {
+      texts,
+      sections,
+      settings,
+      looks: (looksRes.data ?? []) as PublicLook[],
+      consultants: (consultantsRes.data ?? []) as PublicConsultant[],
+    };
   },
 );

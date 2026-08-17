@@ -46,7 +46,7 @@ export const getSiteContent = createServerFn({ method: "GET" }).handler(
       },
     });
 
-    const [textsRes, sectionsRes, settingsRes, looksRes] = await Promise.all([
+    const [textsRes, sectionsRes, settingsRes, looksRes, consultantsRes] = await Promise.all([
       client.from("site_texts").select("key, value"),
       client.from("site_sections").select("key, is_active"),
       client.from("site_settings").select("key, value"),
@@ -56,6 +56,11 @@ export const getSiteContent = createServerFn({ method: "GET" }).handler(
         .eq("status", "published")
         // Looks mais recentes (maior ordem) aparecem primeiro.
         .order("display_order", { ascending: false }),
+      client
+        .from("consultants")
+        .select("id, name, whatsapp, photo, custom_message, display_order")
+        .eq("is_active", true)
+        .order("display_order", { ascending: true }),
     ]);
 
     const texts: Record<string, string> = {};

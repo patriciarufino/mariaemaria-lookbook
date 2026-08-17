@@ -19,6 +19,7 @@ import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } fr
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminAcessosRouteImport } from './routes/admin/acessos'
 import { Route as AdminAdministradoresRouteImport } from './routes/admin/administradores'
+import { Route as AdminAtendimentoRouteImport } from './routes/admin/atendimento'
 import { Route as AdminConsultorasRouteImport } from './routes/admin/consultoras'
 import { Route as AdminLooksRouteImport } from './routes/admin/looks'
 import { Route as AdminSecoesRouteImport } from './routes/admin/secoes'
@@ -80,6 +81,11 @@ const AdminAdministradoresRoute = AdminAdministradoresRouteImport.update({
   path: '/administradores',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminAtendimentoRoute = AdminAtendimentoRouteImport.update({
+  id: '/atendimento',
+  path: '/atendimento',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminConsultorasRoute = AdminConsultorasRouteImport.update({
   id: '/consultoras',
   path: '/consultoras',
@@ -132,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/acessos': typeof AdminAcessosRoute
   '/admin/administradores': typeof AdminAdministradoresRoute
+  '/admin/atendimento': typeof AdminAtendimentoRoute
   '/admin/consultoras': typeof AdminConsultorasRoute
   '/admin/looks': typeof AdminLooksRoute
   '/admin/secoes': typeof AdminSecoesRoute
@@ -151,6 +158,7 @@ export interface FileRoutesByTo {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/acessos': typeof AdminAcessosRoute
   '/admin/administradores': typeof AdminAdministradoresRoute
+  '/admin/atendimento': typeof AdminAtendimentoRoute
   '/admin/consultoras': typeof AdminConsultorasRoute
   '/admin/looks': typeof AdminLooksRoute
   '/admin/secoes': typeof AdminSecoesRoute
@@ -172,6 +180,7 @@ export interface FileRoutesById {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/acessos': typeof AdminAcessosRoute
   '/admin/administradores': typeof AdminAdministradoresRoute
+  '/admin/atendimento': typeof AdminAtendimentoRoute
   '/admin/consultoras': typeof AdminConsultorasRoute
   '/admin/looks': typeof AdminLooksRoute
   '/admin/secoes': typeof AdminSecoesRoute
@@ -194,6 +203,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin/acessos'
     | '/admin/administradores'
+    | '/admin/atendimento'
     | '/admin/consultoras'
     | '/admin/looks'
     | '/admin/secoes'
@@ -213,6 +223,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin/acessos'
     | '/admin/administradores'
+    | '/admin/atendimento'
     | '/admin/consultoras'
     | '/admin/looks'
     | '/admin/secoes'
@@ -233,6 +244,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin/acessos'
     | '/admin/administradores'
+    | '/admin/atendimento'
     | '/admin/consultoras'
     | '/admin/looks'
     | '/admin/secoes'
@@ -329,6 +341,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdministradoresRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/atendimento': {
+      id: '/admin/atendimento'
+      path: '/atendimento'
+      fullPath: '/admin/atendimento'
+      preLoaderRoute: typeof AdminAtendimentoRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/consultoras': {
       id: '/admin/consultoras'
       path: '/consultoras'
@@ -391,6 +410,7 @@ declare module '@tanstack/react-router' {
 interface AdminRouteRouteChildren {
   AdminAcessosRoute: typeof AdminAcessosRoute
   AdminAdministradoresRoute: typeof AdminAdministradoresRoute
+  AdminAtendimentoRoute: typeof AdminAtendimentoRoute
   AdminConsultorasRoute: typeof AdminConsultorasRoute
   AdminLooksRoute: typeof AdminLooksRoute
   AdminSecoesRoute: typeof AdminSecoesRoute
@@ -402,6 +422,7 @@ interface AdminRouteRouteChildren {
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminAcessosRoute: AdminAcessosRoute,
   AdminAdministradoresRoute: AdminAdministradoresRoute,
+  AdminAtendimentoRoute: AdminAtendimentoRoute,
   AdminConsultorasRoute: AdminConsultorasRoute,
   AdminLooksRoute: AdminLooksRoute,
   AdminSecoesRoute: AdminSecoesRoute,

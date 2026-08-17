@@ -11,11 +11,21 @@ export type PublicLook = {
   whatsapp_message: string | null;
 };
 
+export type PublicConsultant = {
+  id: string;
+  name: string;
+  whatsapp: string;
+  photo: string | null;
+  custom_message: string | null;
+  display_order: number;
+};
+
 export type SiteContent = {
   texts: Record<string, string>;
   sections: Record<string, boolean>;
   settings: Record<string, string>;
   looks: PublicLook[];
+  consultants: PublicConsultant[];
 };
 
 export const getSiteContent = createServerFn({ method: "GET" }).handler(

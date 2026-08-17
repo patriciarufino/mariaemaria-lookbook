@@ -134,6 +134,7 @@ function Home() {
                   look={look}
                   buttonLabel={buttonLabel}
                   whatsappHref={waHref(number, look.whatsapp_message || defaultMessage)}
+                  consultants={data.consultants}
                 />
               ))}
             </div>

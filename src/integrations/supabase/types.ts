@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      consultants: {
+        Row: {
+          created_at: string
+          custom_message: string | null
+          display_order: number
+          id: string
+          is_active: boolean
+          name: string
+          photo: string | null
+          updated_at: string
+          whatsapp: string
+        }
+        Insert: {
+          created_at?: string
+          custom_message?: string | null
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          name: string
+          photo?: string | null
+          updated_at?: string
+          whatsapp?: string
+        }
+        Update: {
+          created_at?: string
+          custom_message?: string | null
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          name?: string
+          photo?: string | null
+          updated_at?: string
+          whatsapp?: string
+        }
+        Relationships: []
+      }
       galleries: {
         Row: {
           created_at: string
@@ -75,6 +111,51 @@ export type Database = {
             columns: ["gallery_id"]
             isOneToOne: false
             referencedRelation: "galleries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      look_contacts: {
+        Row: {
+          consultant_id: string | null
+          consultant_name: string
+          created_at: string
+          event_type: string
+          id: string
+          look_id: string | null
+          look_reference: string
+        }
+        Insert: {
+          consultant_id?: string | null
+          consultant_name?: string
+          created_at?: string
+          event_type?: string
+          id?: string
+          look_id?: string | null
+          look_reference?: string
+        }
+        Update: {
+          consultant_id?: string | null
+          consultant_name?: string
+          created_at?: string
+          event_type?: string
+          id?: string
+          look_id?: string | null
+          look_reference?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "look_contacts_consultant_id_fkey"
+            columns: ["consultant_id"]
+            isOneToOne: false
+            referencedRelation: "consultants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "look_contacts_look_id_fkey"
+            columns: ["look_id"]
+            isOneToOne: false
+            referencedRelation: "looks"
             referencedColumns: ["id"]
           },
         ]

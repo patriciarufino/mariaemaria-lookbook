@@ -1,17 +1,37 @@
+import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import type { PublicLook } from "@/lib/public-content.functions";
+import type { PublicConsultant, PublicLook } from "@/lib/public-content.functions";
 import { useIndex, useSwipe } from "@/lib/carousel";
+import { ConsultantModal } from "@/components/consultant-modal";
+import { trackContactEvent } from "@/lib/consultant-contact";
 
 type Props = {
   look: PublicLook;
   buttonLabel: string;
+  /** WhatsApp geral da loja: usado só quando não há consultora ativa. */
   whatsappHref: string;
+  consultants?: PublicConsultant[];
 };
 
-export function LookCard({ look, buttonLabel, whatsappHref }: Props) {
+export function LookCard({ look, buttonLabel, whatsappHref, consultants = [] }: Props) {
   const images = [look.full_look_image, look.detail_image].filter(Boolean) as string[];
   const { index, prev, next, setIndex } = useIndex(images.length);
   const swipeRef = useSwipe(prev, next);
+  const [open, setOpen] = useState(false);
+
+  const hasConsultants = consultants.length > 0;
+
+  function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
+    trackContactEvent({
+      event_type: "click",
+      look_id: look.id,
+      look_reference: look.reference,
+    });
+    if (hasConsultants) {
+      e.preventDefault();
+      setOpen(true);
+    }
+  }
 
   return (
     <figure className="group flex flex-col">
@@ -77,10 +97,15 @@ export function LookCard({ look, buttonLabel, whatsappHref }: Props) {
         href={whatsappHref}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={handleClick}
         className="mx-auto mt-6 inline-flex items-center justify-center border border-border px-8 py-3 text-[0.72rem] uppercase tracking-[0.32em] text-muted-foreground transition-colors hover:bg-secondary"
       >
         {buttonLabel}
       </a>
+
+      {open && (
+        <ConsultantModal look={look} consultants={consultants} onClose={() => setOpen(false)} />
+      )}
     </figure>
   );
 }

@@ -37,10 +37,6 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-export function waHref(number: string, message: string) {
-  return `https://wa.me/${number.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
-}
-
 function Home() {
   const { data } = useSuspenseQuery(contentQuery);
   useTrackVisit("/");

@@ -8,29 +8,22 @@ import { trackContactEvent } from "@/lib/consultant-contact";
 type Props = {
   look: PublicLook;
   buttonLabel: string;
-  /** WhatsApp geral da loja: usado só quando não há consultora ativa. */
-  whatsappHref: string;
   consultants?: PublicConsultant[];
 };
 
-export function LookCard({ look, buttonLabel, whatsappHref, consultants = [] }: Props) {
+export function LookCard({ look, buttonLabel, consultants = [] }: Props) {
   const images = [look.full_look_image, look.detail_image].filter(Boolean) as string[];
   const { index, prev, next, setIndex } = useIndex(images.length);
   const swipeRef = useSwipe(prev, next);
   const [open, setOpen] = useState(false);
 
-  const hasConsultants = consultants.length > 0;
-
-  function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
+  function handleClick() {
     trackContactEvent({
       event_type: "click",
       look_id: look.id,
       look_reference: look.reference,
     });
-    if (hasConsultants) {
-      e.preventDefault();
-      setOpen(true);
-    }
+    setOpen(true);
   }
 
   return (

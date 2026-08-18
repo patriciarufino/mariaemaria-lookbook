@@ -18,7 +18,7 @@ export function consultantMessage(consultant: PublicConsultant, look: PublicLook
       .replaceAll("[REFERENCIA]", look.reference)
       .replaceAll("[REFERÊNCIA]", look.reference);
   }
-  return `Olá, ${consultant.name}! Vi este look no Lookbook da Maria e Maria e gostaria de saber mais sobre ele.\n\nLook: ${look.reference}\n\nPode me ajudar?`;
+  return `Olá, ${consultant.name}! Tenho interesse neste look. ✨ Poderia me passar mais detalhes, por favor?\n\nLook: ${look.reference}`;
 }
 
 type Event = {

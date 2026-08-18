@@ -13,10 +13,12 @@ export function waHref(number: string, message: string) {
 export function consultantMessage(consultant: PublicConsultant, look: PublicLook) {
   const template = (consultant.custom_message ?? "").trim();
   if (template) {
-    return template
+    const filled = template
       .replaceAll("[NOME]", consultant.name)
       .replaceAll("[REFERENCIA]", look.reference)
       .replaceAll("[REFERÊNCIA]", look.reference);
+    // A referência do look é obrigatória: se a mensagem personalizada não a citar, acrescentamos.
+    return filled.includes(look.reference) ? filled : `${filled}\n\nLook: ${look.reference}`;
   }
   return `Olá, ${consultant.name}! Tenho interesse neste look. ✨ Poderia me passar mais detalhes, por favor?\n\nLook: ${look.reference}`;
 }

@@ -128,7 +128,7 @@ function Home() {
                   key={look.id}
                   look={look}
                   buttonLabel={buttonLabel}
-                  whatsappHref={waHref(number, look.whatsapp_message || defaultMessage)}
+                  
                   consultants={data.consultants}
                 />
               ))}

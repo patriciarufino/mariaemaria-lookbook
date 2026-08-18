@@ -3,7 +3,10 @@ import type { PublicConsultant, PublicLook } from "@/lib/public-content.function
 
 /** Monta o link do WhatsApp (abre o app no celular e o WhatsApp Web no computador). */
 export function waHref(number: string, message: string) {
-  return `https://wa.me/${number.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
+  let digits = number.replace(/\D/g, "");
+  // Número cadastrado sem o código do país: completamos com 55 (Brasil).
+  if (digits.length >= 10 && digits.length <= 11) digits = `55${digits}`;
+  return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 }
 
 /**

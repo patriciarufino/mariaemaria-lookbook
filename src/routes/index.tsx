@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
-import { MessageCircle } from "lucide-react";
 
 import { getSiteContent } from "@/lib/public-content.functions";
 import { useTrackVisit } from "@/lib/track-visit";

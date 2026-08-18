@@ -48,8 +48,8 @@ function WhatsappAdmin() {
   return (
     <div>
       <PageTitle
-        title="WhatsApp"
-        description="Todos os botões do lookbook levam a uma conversa no WhatsApp."
+        title="Botão do look"
+        description="O atendimento acontece somente pelas consultoras cadastradas. Aqui você define apenas o texto do botão."
       />
       <Card>
         <div className="space-y-5">

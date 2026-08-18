@@ -21,7 +21,7 @@ const links = [
   { to: "/admin/looks", label: "Looks" },
   { to: "/admin/textos", label: "Textos" },
   { to: "/admin/secoes", label: "Seções" },
-  { to: "/admin/whatsapp", label: "WhatsApp" },
+  { to: "/admin/whatsapp", label: "Botão do look" },
   { to: "/admin/consultoras", label: "Consultoras" },
   { to: "/admin/atendimento", label: "Atendimento" },
   { to: "/admin/acessos", label: "Acessos" },

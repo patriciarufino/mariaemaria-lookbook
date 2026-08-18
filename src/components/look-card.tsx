@@ -8,29 +8,22 @@ import { trackContactEvent } from "@/lib/consultant-contact";
 type Props = {
   look: PublicLook;
   buttonLabel: string;
-  /** WhatsApp geral da loja: usado só quando não há consultora ativa. */
-  whatsappHref: string;
   consultants?: PublicConsultant[];
 };
 
-export function LookCard({ look, buttonLabel, whatsappHref, consultants = [] }: Props) {
+export function LookCard({ look, buttonLabel, consultants = [] }: Props) {
   const images = [look.full_look_image, look.detail_image].filter(Boolean) as string[];
   const { index, prev, next, setIndex } = useIndex(images.length);
   const swipeRef = useSwipe(prev, next);
   const [open, setOpen] = useState(false);
 
-  const hasConsultants = consultants.length > 0;
-
-  function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
+  function handleClick() {
     trackContactEvent({
       event_type: "click",
       look_id: look.id,
       look_reference: look.reference,
     });
-    if (hasConsultants) {
-      e.preventDefault();
-      setOpen(true);
-    }
+    setOpen(true);
   }
 
   return (
@@ -93,15 +86,13 @@ export function LookCard({ look, buttonLabel, whatsappHref, consultants = [] }: 
         )}
       </div>
 
-      <a
-        href={whatsappHref}
-        target="_blank"
-        rel="noopener noreferrer"
+      <button
+        type="button"
         onClick={handleClick}
         className="mx-auto mt-6 inline-flex items-center justify-center border border-border px-8 py-3 text-[0.72rem] uppercase tracking-[0.32em] text-muted-foreground transition-colors hover:bg-secondary"
       >
         {buttonLabel}
-      </a>
+      </button>
 
       {open && (
         <ConsultantModal look={look} consultants={consultants} onClose={() => setOpen(false)} />

@@ -1,0 +1,1 @@
+DELETE FROM public.site_settings WHERE key IN ('whatsapp_number','whatsapp_default_message');

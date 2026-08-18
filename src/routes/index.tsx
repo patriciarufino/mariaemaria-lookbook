@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
-import { MessageCircle } from "lucide-react";
 
 import { getSiteContent } from "@/lib/public-content.functions";
 import { useTrackVisit } from "@/lib/track-visit";
@@ -37,10 +36,6 @@ export const Route = createFileRoute("/")({
   ),
   component: Home,
 });
-
-export function waHref(number: string, message: string) {
-  return `https://wa.me/${number.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
-}
 
 function Home() {
   const { data } = useSuspenseQuery(contentQuery);
@@ -133,7 +128,7 @@ function Home() {
                   key={look.id}
                   look={look}
                   buttonLabel={buttonLabel}
-                  whatsappHref={waHref(number, look.whatsapp_message || defaultMessage)}
+                  
                   consultants={data.consultants}
                 />
               ))}
@@ -197,17 +192,6 @@ function Home() {
         </footer>
       )}
 
-      {number && (
-        <a
-          href={waHref(number, defaultMessage)}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Falar no WhatsApp"
-          className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-105"
-        >
-          <MessageCircle className="h-7 w-7" />
-        </a>
-      )}
     </div>
   );
 }

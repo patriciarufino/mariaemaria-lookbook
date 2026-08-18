@@ -65,7 +65,9 @@ export function ConsultantModal({ look, consultants, onClose }: Props) {
           Com quem você deseja falar?
         </h2>
         <p className="mx-auto mt-3 max-w-md text-center text-sm leading-relaxed text-muted-foreground">
-          Escolha sua consultora para continuar o atendimento.
+          {consultants.length
+            ? "Escolha sua consultora para continuar o atendimento."
+            : "Nossas consultoras estarão disponíveis em instantes. Tente novamente em breve."}
         </p>
 
         <div className="mt-9 grid grid-cols-1 gap-4 sm:grid-cols-3">

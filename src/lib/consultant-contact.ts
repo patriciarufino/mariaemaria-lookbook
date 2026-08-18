@@ -3,7 +3,10 @@ import type { PublicConsultant, PublicLook } from "@/lib/public-content.function
 
 /** Monta o link do WhatsApp (abre o app no celular e o WhatsApp Web no computador). */
 export function waHref(number: string, message: string) {
-  return `https://wa.me/${number.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
+  let digits = number.replace(/\D/g, "");
+  // Número cadastrado sem o código do país: completamos com 55 (Brasil).
+  if (digits.length >= 10 && digits.length <= 11) digits = `55${digits}`;
+  return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 }
 
 /**
@@ -13,12 +16,14 @@ export function waHref(number: string, message: string) {
 export function consultantMessage(consultant: PublicConsultant, look: PublicLook) {
   const template = (consultant.custom_message ?? "").trim();
   if (template) {
-    return template
+    const filled = template
       .replaceAll("[NOME]", consultant.name)
       .replaceAll("[REFERENCIA]", look.reference)
       .replaceAll("[REFERÊNCIA]", look.reference);
+    // A referência do look é obrigatória: se a mensagem personalizada não a citar, acrescentamos.
+    return filled.includes(look.reference) ? filled : `${filled}\n\nLook: ${look.reference}`;
   }
-  return `Olá, ${consultant.name}! Vi este look no Lookbook da Maria e Maria e gostaria de saber mais sobre ele.\n\nLook: ${look.reference}\n\nPode me ajudar?`;
+  return `Olá, ${consultant.name}! Tenho interesse neste look. ✨ Poderia me passar mais detalhes, por favor?\n\nLook: ${look.reference}`;
 }
 
 type Event = {

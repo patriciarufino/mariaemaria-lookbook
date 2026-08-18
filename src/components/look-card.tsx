@@ -86,15 +86,13 @@ export function LookCard({ look, buttonLabel, consultants = [] }: Props) {
         )}
       </div>
 
-      <a
-        href={whatsappHref}
-        target="_blank"
-        rel="noopener noreferrer"
+      <button
+        type="button"
         onClick={handleClick}
         className="mx-auto mt-6 inline-flex items-center justify-center border border-border px-8 py-3 text-[0.72rem] uppercase tracking-[0.32em] text-muted-foreground transition-colors hover:bg-secondary"
       >
         {buttonLabel}
-      </a>
+      </button>
 
       {open && (
         <ConsultantModal look={look} consultants={consultants} onClose={() => setOpen(false)} />

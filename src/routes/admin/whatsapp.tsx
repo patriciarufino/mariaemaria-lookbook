@@ -18,11 +18,7 @@ export const Route = createFileRoute("/admin/whatsapp")({
   component: WhatsappAdmin,
 });
 
-const fields = [
-  { key: "whatsapp_number", label: "Número (com DDI e DDD, ex.: 5511999999999)" },
-  { key: "whatsapp_default_message", label: "Mensagem padrão" },
-  { key: "whatsapp_button_text", label: "Texto do botão de cada look" },
-] as const;
+const fields = [{ key: "whatsapp_button_text", label: "Texto do botão de cada look" }] as const;
 
 function WhatsappAdmin() {
   const queryClient = useQueryClient();
